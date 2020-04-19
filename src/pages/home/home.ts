@@ -321,7 +321,7 @@ export class HomePage {
       let latitude = this.endLat;
       let longitude = this.endLong;
 
-      let term = (this.codeNumber).replace(/\s+$/, '').toLowerCase().normalize('NFD').replace(/\s+/, '_').replace(/([\u0300-\u036f]|[^0-9a-zA-Z_])/g, '');
+      let term = (this.codeNumber).replace(/\s+$/, '').replace(/\s+/g, '_').toLowerCase().normalize('NFD').replace(/([\u0300-\u036f]|[^0-9a-zA-Z_])/g, '');
 
       console.log('Termo da busca: ', term);
 

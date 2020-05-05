@@ -175,6 +175,13 @@ export class HomePage {
     this.viewCtrl = viewCtrl;
     this.getDeviceInfo();
 
+    let origin = this.navParams.get('origin');
+    if (origin === 'qrcode') {
+      console.log('recebendo dados na Home...');
+      this.codeNumber = this.navParams.get('code');
+      this.pushPage('site');
+    }
+
     this.modalIsOpen = this.navParams.get('modalIsOpen');
     if (this.modalIsOpen == true) {
       this.util.loading.dismissAll();
@@ -311,8 +318,14 @@ export class HomePage {
       this.navCtrl.push('QrcodePage', { id: 812 });
       return;
     }
+    if (action === 'connect') {
 
-    if (!this.codeNumber) {
+      action = 'site';
+      this.codeNumber = 'connect';
+
+    }
+
+    if (!this.codeNumber) { //tem que verificar isso
       alert('Digite algo pra acessar');
     } else {
 
@@ -339,11 +352,22 @@ export class HomePage {
 
 
       this.util.getApiconnect(find).then((res) => {
-        
+
         let response = JSON.parse(res.data);
         console.log('Resposta do servidor: ', response);
 
         if (response.status == 200) {
+
+          if (action === 'site') {
+            // registrar a tag no onesignal
+            // abrir o canal
+
+            console.log('Redirecionando para o canal: ', term);
+
+            this.openPage(term);
+            this.util.loading.dismissAll();
+            return;
+          }
           this.navCtrl.push('DetalheCodePage', sendData);
           // this.navCtrl.push('RedirectPage', { data: sendData });
         } else {
@@ -667,6 +691,43 @@ export class HomePage {
     this.myInput.setFocus();
     this.keyboard.show();
     console.log('Acessando o connect');
+  }
+
+  openPage(canal) {
+
+    console.log('Termo da busca:', canal);
+
+    this.myIdOnesignal(canal);
+    this.browserTab.isAvailable()
+      .then(isAvailable => {
+        if (isAvailable) {
+          this.browserTab.openUrl('https://kscode.com.br/st2/connect/?code=' + canal);
+        } else {
+          // open URL with InAppBrowser instead or SafariViewController
+        }
+      });
+
+
+  }
+
+  myIdOnesignal(code) {
+    this.oneSignal.startInit('d9687a3a-3df5-4565-b183-653e84ed8207', '8700496258');
+
+    this.oneSignal.endInit();
+    this.oneSignal.getIds().then((id) => {
+
+      // registrando tags
+      var tagSlug = code;
+      var slugTag = '{"' + tagSlug + '":"true"}';
+      var TagSlug = JSON.parse(slugTag);
+      console.log('Reristrando a TAG: ', slugTag);
+      this.oneSignal.sendTags(TagSlug);
+
+      // alert.present();
+
+    });
+
+
   }
 
 }

@@ -59,7 +59,7 @@ import { ProgressBarComponent } from '../components/progress-bar/progress-bar';
 
 import { QRScanner } from '@ionic-native/qr-scanner';
 import { TranslateConfigService } from '../providers/lang-translate-config/translate-config.service';
-
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 @NgModule({
   declarations: [
@@ -90,6 +90,7 @@ import { TranslateConfigService } from '../providers/lang-translate-config/trans
     MyApp,
    ],
   providers: [
+    InAppBrowser,
     Keyboard,
     QRScanner,
     WebView,

@@ -8,6 +8,7 @@ import { ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { GeolocationProvider } from '../../providers/geolocation/geolocation';
 import { UtilService } from '../../providers/util/util.service';
+import { BrowserTab } from '@ionic-native/browser-tab';
 @IonicPage({
   priority: 'off',
   segment: 'Historico/:token',
@@ -48,6 +49,7 @@ export class HistoricoPage {
     private usuario: UsuarioService,
     private events: Events,
     private utils: UtilService,
+    private browserTab: BrowserTab,
     
   ) {
 
@@ -110,18 +112,27 @@ export class HistoricoPage {
     });
 
   }
+  
   pushPage(codeNumber) {
 
-    console.log('historico sem gps');
-    let redirectData = {
-      liberado: false, origem: 3, lang: this.lang, token: this.token,
-      code: codeNumber,
-      latitude: this.endLat, longitude: this.endLong,
-      telephone: "",
-      pageOrigem: 'HistoricoPage'
-    };
 
-    this.navCtrl.push('RedirectPage', { data: redirectData });
+      console.log('Redirecionando para o canal: ', codeNumber);
+
+      this.openPage(codeNumber);
+      this.utils.loading.dismissAll();
+      // return;
+
+      // metodo antigo
+    // console.log('historico sem gps');
+    // let redirectData = {
+    //   liberado: false, origem: 3, lang: this.lang, token: this.token,
+    //   code: codeNumber,
+    //   latitude: this.endLat, longitude: this.endLong,
+    //   telephone: "",
+    //   pageOrigem: 'HistoricoPage'
+    // };
+
+    // this.navCtrl.push('RedirectPage', { data: redirectData });
 
     // this.navCtrl.push('DetalheCodePage', {liberado:false,origem:3,lang:this.lang,token:this.token,
     //   code: codeNumber,
@@ -234,6 +245,22 @@ export class HistoricoPage {
   removeAccents(strAccents) {
     let strAccentsOut = strAccents.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
     return strAccentsOut;
+  }
+
+  openPage(canal) {
+
+    console.log('Termo da busca:', canal);
+
+    this.browserTab.isAvailable()
+      .then(isAvailable => {
+        if (isAvailable) {
+          this.browserTab.openUrl('https://kscode.com.br/st2/connect/?code=' + canal);
+        } else {
+          // open URL with InAppBrowser instead or SafariViewController
+        }
+      });
+
+
   }
 
 

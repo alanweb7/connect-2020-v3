@@ -8,6 +8,7 @@ import 'rxjs/add/operator/debounceTime';
 import { FormControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { GeolocationProvider } from '../../providers/geolocation/geolocation';
+import { BrowserTab } from '@ionic-native/browser-tab';
 @IonicPage({
   priority: 'high',
   segment: 'MeusCodes/:token/:lang',
@@ -70,7 +71,8 @@ export class MeusCodesPage {
     private geoProv: GeolocationProvider,
     private translate: TranslateService,
     private platform: Platform,
-    private events: Events
+    private events: Events,
+    private browserTab: BrowserTab,
   ) {
     this.searchControl = new FormControl();
 
@@ -234,17 +236,26 @@ export class MeusCodesPage {
 
 
   }
+
   pushPage(codeNumber) {
 
-    let redirectData = {
-      liberado: false, origem: 2, lang: this.lang, token: this.token,
-      code: codeNumber,
-      latitude: this.endLat, longitude: this.endLong,
-      telephone: "",
-      pageOrigem: 'MeusCodesPage'
-    };
+    this.util.showLoading('Aguarde...');
+    this.openPage(codeNumber);
 
-    this.navCtrl.push('RedirectPage', { data: redirectData });
+    setTimeout(() => {
+      this.util.loading.dismissAll();
+    }, 2000);
+    // this.util.loading.dismissAll();
+
+    // let redirectData = {
+    //   liberado: false, origem: 2, lang: this.lang, token: this.token,
+    //   code: codeNumber,
+    //   latitude: this.endLat, longitude: this.endLong,
+    //   telephone: "",
+    //   pageOrigem: 'MeusCodesPage'
+    // };
+
+    // this.navCtrl.push('RedirectPage', { data: redirectData });
 
     // this.navCtrl.push('DetalheCodePage', {liberado:false,origem:2,lang:this.lang,token:this.token,
     //   code: codeNumber,
@@ -253,6 +264,26 @@ export class MeusCodesPage {
     // });
 
   }
+
+
+  openPage(canal) {
+
+    console.log('Termo da busca:', canal);
+
+    this.browserTab.isAvailable()
+      .then(isAvailable => {
+        if (isAvailable) {
+          this.browserTab.openUrl('https://kscode.com.br/st2/connect/?code=' + canal);
+          setTimeout(() => {
+            this.util.loading.dismissAll();
+          }, 500);
+        } else {
+          // open URL with InAppBrowser instead or SafariViewController
+        }
+      });
+
+  }
+
   validaPacote() {
     console.log();
     // this.meus_codes.length = 100;
@@ -380,7 +411,7 @@ export class MeusCodesPage {
   // saindo da pagina
   ionViewWillLeave() {
     console.log('Saindo da página meus-codes: ');
-    let dataUser = {pageOrigem: 'MeusCodesPage'};
+    let dataUser = { pageOrigem: 'MeusCodesPage' };
     this.events.publish('pageOrigem', dataUser);
   }
 

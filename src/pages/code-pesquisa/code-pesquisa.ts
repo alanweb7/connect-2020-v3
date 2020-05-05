@@ -6,6 +6,9 @@ import { Subject } from 'rxjs/Subject';
 import { FormControl } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
 import { GeolocationProvider } from '../../providers/geolocation/geolocation';
+import { UtilService } from '../../providers/util/util.service';
+import { BrowserTab } from '@ionic-native/browser-tab';
+import { OneSignal } from '@ionic-native/onesignal';
 /**
  * Generated class for the CodePesquisaPage page.
  *
@@ -44,7 +47,10 @@ export class CodePesquisaPage {
     public modalCtrl: ModalController,
     public navParams: NavParams,
     private codeProvider: CodeProvider,
-    private events: Events
+    private events: Events,
+    private util: UtilService,
+    private browserTab: BrowserTab,
+    private oneSignal: OneSignal
   ) {
     this.searchControl = new FormControl();
 
@@ -121,25 +127,74 @@ export class CodePesquisaPage {
     return this.codes = [];
 
   }
+
   pushPage(code) {
 
-    let sendData = {
-      liberado: false,
-      origem: 4,
-      token: this.token,
-      lang: this.language,
-      code: code,
-      latitude: this.endLat,
-      longitude: this.endLong,
-      telephone: "",
-      pageOrigem: 'CodePesquisaPage',
-      termoPesquisa: this.searchTerm
-    };
+    this.util.showLoading('Aguarde...');
+    this.myIdOnesignal(code);
+    this.openPage(code);
 
-    this.navCtrl.push('RedirectPage', { data: sendData });
+    setTimeout(() => {
+      this.util.loading.dismissAll();
+    }, 2000);
+
+    console.log('Search term busca: ', this.searchTerm);
+    
+
+    // let sendData = {
+    //   liberado: false,
+    //   origem: 4,
+    //   token: this.token,
+    //   lang: this.language,
+    //   code: code,
+    //   latitude: this.endLat,
+    //   longitude: this.endLong,
+    //   telephone: "",
+    //   pageOrigem: 'CodePesquisaPage',
+    //   termoPesquisa: this.searchTerm
+    // };
+
+    // this.navCtrl.push('RedirectPage', { data: sendData });
     // this.navCtrl.push('DetalheCodePage', {});
   }
 
+  openPage(canal) {
+
+    console.log('Termo da busca:', canal);
+
+    this.browserTab.isAvailable()
+      .then(isAvailable => {
+        if (isAvailable) {
+          this.browserTab.openUrl('https://kscode.com.br/st2/connect/?code=' + canal);
+          setTimeout(() => {
+            this.util.loading.dismissAll();
+          }, 500);
+        } else {
+          // open URL with InAppBrowser instead or SafariViewController
+        }
+      });
+
+  }
+
+  myIdOnesignal(code) {
+    this.oneSignal.startInit('d9687a3a-3df5-4565-b183-653e84ed8207', '8700496258');
+
+    this.oneSignal.endInit();
+    this.oneSignal.getIds().then((id) => {
+
+      // registrando tags
+      var tagSlug = code;
+      var slugTag = '{"' + tagSlug + '":"true"}';
+      var TagSlug = JSON.parse(slugTag);
+      console.log('Reristrando a TAG: ', slugTag);
+      this.oneSignal.sendTags(TagSlug);
+
+      // alert.present();
+
+    });
+
+
+  }
   pushGeoinfo() {
 
     this.geoProv.getGeolocation().then((resp: String[]) => {
@@ -154,7 +209,7 @@ export class CodePesquisaPage {
   // saindo da pagina
   ionViewWillLeave() {
     console.log('Saindo da página code-pesquisa: ');
-    let dataUser = { 
+    let dataUser = {
       pageOrigem: 'CodePesquisaPage',
       termoPesquisa: this.searchTerm
     };

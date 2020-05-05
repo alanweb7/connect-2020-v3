@@ -454,6 +454,11 @@ export class MyApp {
         msg_servidor: this.msg_servidor, cupom: this.cnpj
       });
     }
+    else if (page == 78) {
+      this.nav.push("SitePage", {
+        channel: 'connect'
+      });
+    }
 
   }
 

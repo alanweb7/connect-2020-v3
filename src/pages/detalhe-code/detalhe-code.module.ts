@@ -26,8 +26,6 @@ import { BrMaskerModule } from 'brmasker-ionic-3';
       }
     }),
   ],
-
-
   providers: [
     HistoricoService,
     PhotoViewer,

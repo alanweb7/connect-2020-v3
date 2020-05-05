@@ -38,7 +38,7 @@
               </ion-item>
             </ion-col>
             <ion-col col-12 class="info-servico">
-              <button id="home-button1" class="btn-home" ion-button block icon-left (click)="pushPage()"
+              <button id="home-button1" class="btn-home" ion-button block icon-left (click)="pushPage('site')"
                 [disabled]="signupform.invalid">
                 <ion-icon name="navigate"  slot="start" class="icon_btn_home"></ion-icon>
                 {{button}}
@@ -84,7 +84,7 @@
 
         </ion-col>
         <ion-col col-3>
-          <div class="adquire-code" (click)="pushPageCode('connect')">
+          <div class="adquire-code" (click)="pushPage('connect')">
             <span class="title-share">CONNECT</span>
           </div>
         </ion-col>

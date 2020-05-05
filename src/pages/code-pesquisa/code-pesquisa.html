@@ -17,7 +17,7 @@
     <ion-spinner name="bubbles"></ion-spinner>
   </div>
   <ion-list class="list-cidade" *ngFor="let item of codes">
-    <ion-item (click)="pushPage(item.code)">
+    <ion-item (click)="pushPage(item.slug ? item.slug : item.code)">
       <div class="header_thumbs">
         <div [ngStyle]="{'background-image': 'url('+ item.card +')'}"
           class="thumbs-list item item-thumbnail-left custom-thumbnail">

@@ -13,7 +13,7 @@
       <button ion-button icon-only (click)="shareSheetShare()" *ngIf="slug">
         <ion-icon ios="ios-share" md="md-share"></ion-icon>
       </button>
-      <button ion-button icon-only (click)="showPromptPush()">
+      <button ion-button icon-only (click)="showPromptPush()" *ngIf="slug">
         <ion-icon ios="ios-notifications" md="md-notifications"></ion-icon>
       </button>
     </ion-buttons>

@@ -7,6 +7,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ClienteProvider } from '../../providers/cliente/cliente';
 import {HttpClient} from "@angular/common/http";
+import { HistoricoService } from '../../providers/historico/historico.service';
 @NgModule({
   declarations: [
     HomePage,
@@ -22,6 +23,7 @@ import {HttpClient} from "@angular/common/http";
     }),
   ],
   providers:[
+    HistoricoService,
     OneSignal,
     Keyboard,
     ClienteProvider

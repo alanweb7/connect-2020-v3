@@ -40,13 +40,14 @@
             <ion-col col-12 class="info-servico">
               <button id="home-button1" class="btn-home" ion-button block icon-left (click)="pushPage('site')"
                 [disabled]="signupform.invalid">
-                <ion-icon name="navigate"  slot="start" class="icon_btn_home"></ion-icon>
+                <ion-icon name="navigate" slot="start" class="icon_btn_home"></ion-icon>
                 {{button}}
               </button>
               <div style="text-align: center;margin-top: 15px;">
-                <button class="btn-qrcode" ion-button round outline color="primary" (click)="pushPage('qrcode')" style="margin: auto;width: 100%; border-color: #0071f8; color: #0071f8;" >
-                  <ion-icon slot="start" name="md-qr-scanner" style="margin-right: 7px;"></ion-icon>  {{scanqr}}
-                  
+                <button class="btn-qrcode" ion-button round outline color="primary" (click)="pushPage('qrcode')"
+                  style="margin: auto;width: 100%; border-color: #0071f8; color: #0071f8;">
+                  <ion-icon slot="start" name="md-qr-scanner" style="margin-right: 7px;"></ion-icon> {{scanqr}}
+
                 </button>
               </div>
 
@@ -66,7 +67,8 @@
       <ion-row>
         <ion-col col-3>
           <div class="adquire-code" (click)="pushPagePesquisa()">
-            <span class="title-share icon-search"><img class="icon-search" src="../../assets/imgs/search-btn.png"></span>
+            <span class="title-share icon-search"><img class="icon-search"
+                src="../../assets/imgs/search-btn.png"></span>
           </div>
         </ion-col>
         <ion-col col-1>
@@ -74,10 +76,9 @@
 
         </ion-col>
         <ion-col col-4>
-          <div class="adquire-code" (click)="shopcode()">
-            <span class="title-share">{{adquira}}</span>
+          <div class="adquire-code" *ngIf="this.appSettings.link_shop" (click)="shopcode(this.appSettings.link_site)">
+            <span class="title-share">{{!this.appSettings.btn_text ? adquira : 'CONHEÇA NOSSO SITE'}}</span>
           </div>
-
         </ion-col>
         <ion-col col-1>
           |

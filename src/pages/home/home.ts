@@ -20,6 +20,11 @@ import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { UtilService } from '../../providers/util/util.service';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
 
+
+// importer model
+import { Historico } from './../../models/historico.model';
+import { HistoricoService } from '../../providers/historico/historico.service';
+
 // Pacote IOS: br.com.kscode.app360
 // Pacote Google: com.kcode360.kcode
 @IonicPage({
@@ -33,6 +38,11 @@ export class HomePage {
 
 
   @ViewChild('input') myInput;
+  public appSettings: any = {
+    'link_shop': false,
+    'btn_text': false,
+    'link_site': 'pacotes'
+  };
   public modalIsOpen: boolean;
   public signupform: FormGroup;
   codeNumber: any;
@@ -166,6 +176,7 @@ export class HomePage {
     public ApiRest: AdminToolsRest,
     public adminDb: AdminToolsDb,
     public viewCtrl: ViewController,
+    private historico: HistoricoService,
 
   ) {
 
@@ -174,6 +185,7 @@ export class HomePage {
     // this.setConfigInitial();
     this.viewCtrl = viewCtrl;
     this.getDeviceInfo();
+    this.getAppSettings();
 
     let origin = this.navParams.get('origin');
     if (origin === 'qrcode') {
@@ -325,7 +337,7 @@ export class HomePage {
 
     }
 
-    if (!this.codeNumber) { //tem que verificar isso
+    if (!this.codeNumber) {
       alert('Digite algo pra acessar');
     } else {
 
@@ -364,6 +376,7 @@ export class HomePage {
 
             console.log('Redirecionando para o canal: ', term);
 
+            this.registerOnFavorite(response);
             this.openPage(term);
             this.util.loading.dismissAll();
             return;
@@ -478,7 +491,7 @@ export class HomePage {
   }
 
   shopcode(link = null) {
-    let url = link ? link : 'https://kscode.com.br/pacotes/';
+    let url = 'https://kscode.com.br/' + link;
     this.browserTab.isAvailable()
       .then(isAvailable => {
         if (isAvailable) {
@@ -726,6 +739,80 @@ export class HomePage {
       // alert.present();
 
     });
+
+
+  }
+
+  registerOnFavorite(dataHist) {
+
+    console.log('Dados do servidor para gravar no histórico: ', dataHist);
+    let contextHist: Historico;
+    //grava o historico
+
+    this.historico.getAll().then((resp) => {
+      console.log('Resultado do histórico: ', resp);
+
+
+      this.historico.getById(dataHist.id)
+        .then((existe: Number) => {
+          console.log('O code existe no histórico: ', existe);
+
+          if (existe < 0) {
+            console.log('Criando histórico: ', existe); //id, code, titulo, img, card
+            contextHist = new Historico(String(dataHist.id), dataHist.canal, dataHist.titulo, dataHist.card, dataHist.card);
+            //grava historico no banco de dados local
+            this.historico.create(contextHist)
+              .then((data: any) => { });
+          } else {
+            console.log('Atualiszando histórico: ', existe);
+
+            //grava historico no banco de dados local
+            this.historico.update(dataHist.titulo, dataHist.card, dataHist.canal, dataHist.card, dataHist.id)
+              .then((data: any) => { });
+          }
+
+        });
+
+
+    });
+
+
+
+
+  }
+
+  getAppSettings() {
+
+    if (this.platform.is('android')) {
+
+      this.appSettings.link_shop = true;
+      this.appSettings.link_site = 'pacotes';
+      console.log('Texto adquira: ', this.adquira);
+
+    }
+
+    if (this.platform.is('IOS')) {
+
+      let find = {
+        url: 'https://kscode.com.br/ksc_2020/wp-json/admin/v1/checkcode/checkAppConfig',
+        method: 'get'
+      };
+
+      this.util.getApiconnect(find).then((res) => {
+
+        let response = JSON.parse(res.data);
+        this.appSettings.link_shop = response.link_shop;
+        this.appSettings.btn_text = response.btn_text;
+        this.appSettings.link_site = response.link_site;
+        console.log('Dado do servidor getAppSettings: ', response);
+        console.log('Configurações do app: ', this.appSettings);
+
+      });
+
+    }
+
+
+
 
 
   }

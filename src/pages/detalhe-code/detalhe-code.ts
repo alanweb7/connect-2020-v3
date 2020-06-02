@@ -737,13 +737,16 @@ export class DetalheCodePage {
     //grava o historico
     this.historico.getById(id)
       .then((existe: Number) => {
+                
         if (existe < 0) {
           contextHist = new Historico(id, code, titulo, img, card);
           //grava historico no banco de dados local
+          
           this.historico.create(contextHist)
             .then((data: any) => { });
         } else {
           //grava historico no banco de dados local
+          
           this.historico.update(titulo, img, code, card, id)
             .then((data: any) => { });
         }

@@ -50,7 +50,7 @@ export class HistoricoPage {
     private events: Events,
     private utils: UtilService,
     private browserTab: BrowserTab,
-    
+
   ) {
 
 
@@ -112,17 +112,16 @@ export class HistoricoPage {
     });
 
   }
-  
+
   pushPage(codeNumber) {
 
+    console.log('Redirecionando para o canal: ', codeNumber);
 
-      console.log('Redirecionando para o canal: ', codeNumber);
+    this.openPage(codeNumber);
+    this.utils.loading.dismissAll();
+    // return;
 
-      this.openPage(codeNumber);
-      this.utils.loading.dismissAll();
-      // return;
-
-      // metodo antigo
+    // metodo antigo
     // console.log('historico sem gps');
     // let redirectData = {
     //   liberado: false, origem: 3, lang: this.lang, token: this.token,
@@ -208,7 +207,7 @@ export class HistoricoPage {
     this.socialSharing.share(textShare, "Share subject", card, "https://connect.kscode.com.br/" + code).then(() => {
       console.log("shareSheetShare: Success");
       this.utils.loading.dismissAll();
-      
+
     }).catch((error) => {
       console.error("shareSheetShare: failed", error);
     });
@@ -250,13 +249,12 @@ export class HistoricoPage {
   openPage(canal) {
 
     console.log('Termo da busca:', canal);
+    let url = 'https://kscode.com.br/' + canal;
 
     this.browserTab.isAvailable()
       .then(isAvailable => {
         if (isAvailable) {
-          this.browserTab.openUrl('https://kscode.com.br/st2/connect/?code=' + canal);
-        } else {
-          // open URL with InAppBrowser instead or SafariViewController
+          this.browserTab.openUrl(url);
         }
       });
 

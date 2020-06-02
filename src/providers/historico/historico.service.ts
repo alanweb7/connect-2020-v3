@@ -86,10 +86,13 @@ export class HistoricoService {
   }
 
   getById(id_serv: Number){
+    console.log('Buscar o id: ', id_serv);
+    
     return this.db.executeSql('SELECT id_serv FROM historico WHERE id_serv=?', [id_serv])
       .then(resultSet =>
         ( resultSet.rows.item(0).id_serv))
       .catch((resultSet =>-1));
+      
   }
   getByCode(code: String){
     return this.db.executeSql('SELECT * FROM historico WHERE code=?', [code])

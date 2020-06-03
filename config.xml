@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.kcode360.kcode" version="25.5.10" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>CONNECT-KSC</name>
+    <name>CONNECT KSC</name>
     <description>Tudo se conecta aqui.</description>
     <author email="contato@kscode.com.br" href="http://spottec.com.br/">SPOTTEC</author>
     <content src="index.html" />

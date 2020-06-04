@@ -113,6 +113,7 @@
     "ng2-file-upload": "^1.3.0",
     "onesignal-cordova-plugin": "^2.5.2",
     "os": "0.1.1",
+    "pinkie-promise": "git+https://github.com/floatdrop/pinkie-promise.git",
     "rxjs": "5.5.11",
     "sw-toolbox": "3.6.0",
     "uuid": "^3.3.3",

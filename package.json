@@ -5,7 +5,6 @@
   "homepage": "http://spottec.com.br/",
   "private": true,
   "scripts": {
-    "preinstall": "rm -rf node_modules && rm -f package-lock.json && npm install --quiet --optional",
     "start": "ionic-app-scripts serve",
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
@@ -106,6 +105,7 @@
     "device": "0.3.9",
     "es6-promise-plugin": "^4.2.2",
     "firebase": "^5.9.2",
+    "grpc": "^1.24.3",
     "ionic-angular": "3.9.2",
     "ionic-plugin-deeplinks": "^1.0.20",
     "ionicons": "3.0.0",

@@ -5,7 +5,7 @@
   "homepage": "http://spottec.com.br/",
   "private": true,
   "scripts": {
-    "preinstall": "npm install grpc",
+    "preinstall": "npm install grpc --build-from-source",
     "start": "ionic-app-scripts serve",
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",

@@ -325,7 +325,7 @@ export class HomePage {
   }
 
   pushPage(action = null) {
-
+    
     if (action === 'qrcode') {
       this.navCtrl.push('QrcodePage', { id: 812 });
       return;
@@ -377,8 +377,8 @@ export class HomePage {
             console.log('Redirecionando para o canal: ', term);
 
             this.registerOnFavorite(response);
+            this.myIdOnesignal(term);
             this.openPage(term);
-            this.util.loading.dismissAll();
             return;
           }
           this.navCtrl.push('DetalheCodePage', sendData);
@@ -650,7 +650,12 @@ export class HomePage {
         telephone: this.global.myGlobalVar
 
       };
-      this.navCtrl.push('RedirectPage', { data: sendData });
+      this.codeNumber = code;
+      this.pushPage('site');
+      // redirecionando a notificação
+      console.log('Redirecionanando a notificação com os dados: ', sendData);
+      
+      // this.navCtrl.push('RedirectPage', { data: sendData });
 
       // this.navCtrl.push('DetalheCodePage', sendData);
       console.log('notifcacao codes com gps');
@@ -715,6 +720,7 @@ export class HomePage {
       .then(isAvailable => {
         if (isAvailable) {
           this.browserTab.openUrl('https://kscode.com.br/st2/connect/?code=' + canal);
+          this.util.loading.dismissAll();
         } else {
           // open URL with InAppBrowser instead or SafariViewController
         }

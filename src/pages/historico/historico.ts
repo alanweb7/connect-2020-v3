@@ -249,7 +249,7 @@ export class HistoricoPage {
   openPage(canal) {
 
     console.log('Termo da busca:', canal);
-    let url = 'https://kscode.com.br/' + canal;
+    let url = 'https://connect.kscode.com.br/' + canal;
 
     this.browserTab.isAvailable()
       .then(isAvailable => {

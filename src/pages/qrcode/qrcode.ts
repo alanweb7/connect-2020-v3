@@ -117,7 +117,7 @@ export class QrcodePage {
                   // await this.navCtrl.push('DetalheCodePage', { code: data.code });
                   console.log('redirecionando para a Home...');
                   
-                  this.navCtrl.push('HomePage', { origin: 'qrcode', code: data.code });
+                  this.navCtrl.setRoot('HomePage', { origin: 'qrcode', code: data.code });
                 });
 
                 // let dataSeacrh = {

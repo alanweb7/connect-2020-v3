@@ -397,7 +397,7 @@ export class MenuCodePage {
     this.codeProvider.getShowCode(this.id_code)
       .then(
         (result: any) => {
-          this.util.loading.dismissAll();
+          // this.util.loading.dismissAll();
           console.log("result em menu-code.ts: ", result);
           if (result.status == 200) {
             //popula todas a variaveis
@@ -456,6 +456,8 @@ export class MenuCodePage {
             this.toast.create({ message: this.msg_erro, position: 'botton', duration: 3000, closeButtonText: 'Ok!', cssClass: 'error' }).present();
 
           }
+
+          this.util.loading.dismissAll();
 
         }, (error: any) => {
           this.toast.create({ message: this.msg_servidor, position: 'botton', duration: 3000, closeButtonText: 'Ok!', cssClass: 'error' }).present();

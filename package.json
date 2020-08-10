@@ -23,7 +23,7 @@
     "@ionic-native/base64": "^4.19.0",
     "@ionic-native/browser-tab": "^4.18.0",
     "@ionic-native/call-number": "^4.20.0",
-    "@ionic-native/camera": "^4.18.0",
+    "@ionic-native/camera": "^4.20.0",
     "@ionic-native/chooser": "^4.20.0",
     "@ionic-native/clipboard": "^4.20.0",
     "@ionic-native/core": "~4.18.0",
@@ -130,7 +130,7 @@
   "cordova": {
     "plugins": {
       "cordova-plugin-camera": {
-        "ANDROID_SUPPORT_V4_VERSION": "27.+"
+        "ANDROID_SUPPORT_V4_VERSION": "29.+"
       },
       "cordova-plugin-telerik-imagepicker": {
         "PHOTO_LIBRARY_USAGE_DESCRIPTION": "ACESSO A GALERIA"

@@ -23,11 +23,9 @@
 <ion-content padding scroll="false">
   <!-- novo menu -->
   <div class="container-panel" *ngIf="segment == 2">
-
-    <p class="info-painel">Escolha uma área para editar as informações:</p>
-    <div class="gallery-view">
+    <h3 *ngIf="!slug">Carregando...</h3>
+    <div class="gallery-view" *ngIf="slug">
       <div class="image-container">
-
         <div class="thumb-item content-itens" *ngFor="let menu of menu_midias">
           <div (click)="getAction(menu.action)" class="item-avatar"
             [ngStyle]="{'background-color': menu.bg_color ? menu.bg_color : 'red'}">
@@ -101,10 +99,10 @@
 
         </form>
       </div>
-      <div *ngIf="segment == 2">
+      <div *ngIf="segment == 2 ">
         <div class="panel-buttons">
           <button ion-button (click)="ShowCam()" block class="round-button">
-            <div class="icon-button">
+            <div class="icon-button"> 
               <ion-icon slot="start" name="camera"></ion-icon>
             </div>
             {{menu_1}}
@@ -134,7 +132,6 @@
               </div>
               Áudio
             </button>
-
           </div>
         </div> <!-- Painel buttons -->
       </div>

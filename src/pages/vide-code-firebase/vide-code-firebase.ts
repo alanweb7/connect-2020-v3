@@ -151,7 +151,7 @@ export class VideCodeFirebasePage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad UploadPage');
+    console.log('Página acessada: ionViewDidLoad UploadPage');
     console.log('Fonte do video: ', this.fonteCapture);
 
     this.token = String;
@@ -302,19 +302,21 @@ export class VideCodeFirebasePage {
   }
   /// selecionar da galeria
   selectVideoFTP() {
+    console.log('Função select vídeo');
+    
     this.fonteCapture = 'galeria';
     this.videoGallery = true;
-    const options: CameraOptions = {
+    let options: CameraOptions = {
       mediaType: this.camera.MediaType.VIDEO,
-      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
     }
     // transcoder do video
 
     this.camera.getPicture(options)
-      .then((videoUrl) => {
+      .then(async (videoUrl) => {
+        console.log('Dados do vídeo: ', videoUrl);
         if (videoUrl) {
-          // this.showLoader();
+          // this.showLoader(); 
           let dirpath = videoUrl.substr(0, videoUrl.lastIndexOf('/') + 1);
           let filename = videoUrl.substring(videoUrl.lastIndexOf('/') + 1);
 
@@ -346,15 +348,15 @@ export class VideCodeFirebasePage {
 
           }
 
-          try {
+          // try {
 
-            this.util.loading.dismissAll();
+          //   this.util.loading.dismissAll();
 
 
-          } catch (err) {
-            console.log('error 1');
+          // } catch (err) {
+          //   console.log('error 1');
 
-          }
+          // }
 
 
         }// final if
@@ -505,6 +507,8 @@ export class VideCodeFirebasePage {
   }
   ///gravar da camera câmera
   onRecordVideoFTP() { //grava da camera
+    console.log('Função OnRecordVideo');
+    
     this.fonteCapture = 'camera';
     this.videoGallery = false;
     let options: CaptureVideoOptions = { limit: 1, duration: 1800, quality: 0 }
@@ -583,8 +587,8 @@ export class VideCodeFirebasePage {
     this.porcentagem = "";
     this.name = "";
   }
-  atualizaArquivo(event) {
 
+  atualizaArquivo(event) {
     if (this.videos.length > 0) {
       console.log("entrei aqui no >0", this.videos.length);
       if (this.videos.length >= this.package_videos) {
